@@ -13,10 +13,8 @@ int main(int argc, char** argv)
 {
 	if (argc != 3)
 	{
-		printf("wrong parameters!\n");
-
+		fputs("Wrong parameters specified!\n", stdout);
 		usage();
-
 		return EXIT_FAILURE;
 	}
 
@@ -26,11 +24,19 @@ int main(int argc, char** argv)
 	bool hours_valid = parse_number(argv[1], &hours);
 	bool minutes_valid = parse_number(argv[2], &minutes);
 
-	printf("hours: %lu(%s), minutes: %d(%s)\n", hours, hours_valid ? "true" : "false", minutes,
+	printf("hours: %lu(%s), minutes: %lu(%s)\n", hours, hours_valid ? "true" : "false", minutes,
 	       minutes_valid ? "true" : "false");
 
-	if (!hours_valid || !minutes_valid)
+	if (!hours_valid || hours < 0 || hours >= 24)
 	{
+		fputs("Invalid hour specified!\n", stdout);
+		usage();
+		return EXIT_FAILURE;
+	}
+
+	if (!minutes_valid || minutes < 0 || minutes >= 60)
+	{
+		fputs("Invalid minute specified!\n", stdout);
 		usage();
 		return EXIT_FAILURE;
 	}
@@ -41,7 +47,7 @@ int main(int argc, char** argv)
 
 void usage()
 {
-	printf("Usage: clock.exe HOURS MINUTES\n");
+	fputs("Usage: clock.exe HOURS MINUTES\n", stdout);
 }
 
 
@@ -50,6 +56,7 @@ bool parse_number(const char* input, unsigned long* number)
 	const char* beginPtr = input;
 	char* endPtr = NULL;
 
+	errno = 0;
 	*number = strtoul(beginPtr, &endPtr, 10);
 
 	if (beginPtr == endPtr)
@@ -67,7 +74,7 @@ bool parse_number(const char* input, unsigned long* number)
 		/* valid  (and represents all characters read) */
 		return true;
 	}
-	else if (errno == 0 && beginPtr && *endPtr != 0)
+	if (errno == 0 && beginPtr && *endPtr != 0)
 	{
 		/* valid  (but additional characters remain) */
 		return false;
