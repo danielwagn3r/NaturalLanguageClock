@@ -41,6 +41,18 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
+	if (minutes == 0)
+	{
+		/* just hours */
+		const bool oclock = (hours % 12) != 0;
+		const bool morning = hours >= 1 && hours <= 11 && oclock;
+		const bool afternoon = hours >= 13 && hours <= 23 && oclock;
+
+		const unsigned long hours_index = hours == 12 ? hours : hours % 12;
+
+		fprintf(stdout, "%s %s", hour_table[hours_index], (morning ? suffix_table[0] : afternoon ? suffix_table[1] : ""));
+	}
+
 	return EXIT_SUCCESS;
 }
 

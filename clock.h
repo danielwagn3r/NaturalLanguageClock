@@ -23,7 +23,13 @@ char* hour_table[] =
 	"nine",
 	"ten",
 	"eleven",
-	"twelve"
+	"noon"
+};
+
+char* suffix_table[] =
+{
+	"o'clock in the morning",
+	"o'clock in the afternoon"
 };
 
 #endif
