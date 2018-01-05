@@ -32,4 +32,12 @@ char* suffix_table[] =
 	"o'clock in the afternoon"
 };
 
+char *quarter_table[] =
+{
+	"",
+	"quarter past",
+	"half past",
+	"quarter to"
+};
+
 #endif

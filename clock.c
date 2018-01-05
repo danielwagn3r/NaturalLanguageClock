@@ -52,6 +52,13 @@ int main(int argc, char** argv)
 
 		fprintf(stdout, "%s %s", hour_table[hours_index], (morning ? suffix_table[0] : afternoon ? suffix_table[1] : ""));
 	}
+	else
+	{
+		const bool is_quarter = (minutes % 15) == 0;
+		const unsigned long quarter = (minutes / 15) * is_quarter;
+
+		fprintf(stdout, "%s\n", quarter_table[quarter]);
+	}
 
 	return EXIT_SUCCESS;
 }
