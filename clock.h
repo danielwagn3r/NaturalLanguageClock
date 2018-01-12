@@ -29,7 +29,9 @@ char* hour_table[] =
 char* suffix_table[] =
 {
 	"o'clock in the morning",
-	"o'clock in the afternoon"
+	"o'clock in the afternoon",
+	"in the morning",
+	"in the afternoon"
 };
 
 char *quarter_table[] =

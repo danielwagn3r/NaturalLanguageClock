@@ -41,12 +41,14 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
+
+
 	if (minutes == 0)
 	{
 		/* just hours */
-		const bool oclock = (hours % 12) != 0;
-		const bool morning = hours >= 1 && hours <= 11 && oclock;
-		const bool afternoon = hours >= 13 && hours <= 23 && oclock;
+		const bool oclock = (hours % 12) == 0;
+		const bool morning = hours >= 1 && hours <= 11 && !oclock;
+		const bool afternoon = hours >= 13 && hours <= 23 && !oclock;
 
 		const unsigned long hours_index = hours == 12 ? hours : hours % 12;
 
@@ -57,7 +59,20 @@ int main(int argc, char** argv)
 		const bool is_quarter = (minutes % 15) == 0;
 		const unsigned long quarter = (minutes / 15) * is_quarter;
 
-		fprintf(stdout, "%s\n", quarter_table[quarter]);
+		if (minutes == 45)
+			hours++;
+
+		const bool oclock = (hours % 12) == 0;
+		const bool morning = hours >= 1 && hours <= 11 && !oclock;
+		const bool afternoon = hours >= 13 && hours <= 23 && !oclock;
+
+		const unsigned long hours_index = hours == 12 ? hours : hours % 12;
+		const unsigned long hour_shift = quarter > 2;
+
+		if (is_quarter)
+		{
+			fprintf(stdout, "%s %s %s\n", quarter_table[quarter], hour_table[hours_index], (morning ? suffix_table[2] : afternoon ? suffix_table[3] : ""));
+		}
 	}
 
 	return EXIT_SUCCESS;
